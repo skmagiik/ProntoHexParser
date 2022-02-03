@@ -1,14 +1,15 @@
 #include "InputParser.h"
 #include "BurstPair.h"
 #include "ProntoHex.h"
-#include "ProntoHexSony.h"
 #include <fstream>
 #include <sstream>
 
 ProntoHex pronto;
+enum OutputType{ NONE=0, IR_SCRUTINIZER, C_ARRAY};
 
 int main(int argc, char **argv)
 {
+    OutputType outputType = OutputType::NONE;
     bool printSigns = true;
     bool skipSizeEval = false;
     static bool verboseOutput = false;
@@ -47,6 +48,14 @@ int main(int argc, char **argv)
             printSigns = true;
         }else{
             printSigns = false;
+        }
+    }
+
+    if(input.cmdOptionExists("-o")){
+        if(input.getCmdOption("-o") == "irscrutinizer" || input.getCmdOption("-o") == "irs" || input.getCmdOption("-o") == "IRSCRUTINIZER"){
+            outputType = OutputType::IR_SCRUTINIZER;
+        }else if(input.getCmdOption("-o") == "c" || input.getCmdOption("-o") == "C" || input.getCmdOption("-o") == "arduino" || input.getCmdOption("-o") == "ARDUINO"){
+            outputType = OutputType::C_ARRAY;
         }
     }
 
@@ -126,9 +135,27 @@ int main(int argc, char **argv)
             }
         }
 
-        if(verboseOutput){
-            printf("Verbose level output: %d\n", verboseLevel);
+        if(outputType == OutputType::IR_SCRUTINIZER){
+            printf("Freq=%dHz[",(int)round(pronto.GetIRFrequency()));
+            vector<int> sequenceData = pronto.GetSequenceTiming(1,true);
+            for(int j = 0; j < sequenceData.size(); j++){
+                printf("%s%d",sequenceData[j]>=0 ? "+" : "", sequenceData[j]);
+                if(j+1 < sequenceData.size()){
+                    printf(",");
+                }
+            }
+            printf("][");
+            sequenceData.clear();
+            sequenceData = pronto.GetSequenceTiming(2,true);
+            for(int j = 0; j < sequenceData.size(); j++){
+                printf("%s%d",sequenceData[j]>=0 ? "+" : "", sequenceData[j]);
+                if(j+1 < sequenceData.size()){
+                    printf(",");
+                }
+            }
+            printf("][]\n\n");
         }
+
     }else{
         printf("Error loading file or creating Pronto object from file contents.\nVerify the filename and the file contents are ASCII text\n\n");
         return -1;
