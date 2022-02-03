@@ -122,7 +122,7 @@ int main(int argc, char **argv)
 
                 
             }else{
-                printf("Sequence %d is not present.\n", i);
+                printf("Sequence %d is not present.\n\n", i);
             }
         }
 
