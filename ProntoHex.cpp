@@ -223,7 +223,7 @@ int ProntoHex::GetSequenceStartIndex(int sequence){
     }
     int start_index = 8;
     if(IsSequencePresent(1) && sequence == 2){
-        start_index += GetSequenceLength(1)*2;
+        start_index += GetSequenceLength(1)*4;
     }
     return start_index;
 }
