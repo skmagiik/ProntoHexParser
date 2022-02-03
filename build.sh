@@ -1,2 +1,3 @@
 #!/bin/bash
-g++ -o ./prontohex BurstPair.cpp ProntoHex.cpp ProntoHexSony.cpp main.cpp
+mkdir -p build
+g++ -o ./build/prontohexparser BurstPair.cpp ProntoHex.cpp ProntoHexSony.cpp main.cpp
