@@ -272,7 +272,7 @@ vector<int> ProntoHex::GetSequenceTiming(int sequence, bool withsigns){
 }
 
 
-vector<BurstPair> ProntoHex::GetSequenceBurstPairs(int sequence){
+vector<BurstPair> ProntoHex::GetSequenceBurstPairs(int sequence, bool verboseOutput, int verboseLevel){
     if(sequence != 1 && sequence != 2){
         throw runtime_error("Cannot request sequence " + to_string(sequence));
     }
@@ -282,13 +282,16 @@ vector<BurstPair> ProntoHex::GetSequenceBurstPairs(int sequence){
 
     int index = GetSequenceStartIndex(sequence);
     vector<unsigned char> bytes = GetSequenceBytes(sequence);
-
     vector<BurstPair> results;
     for(int i = 0; i < bytes.size(); i+= 4){
         int onpulses = (bytes[i]<<8) + bytes[i+1];
         int onvalue = round(onpulses * GetIRPulseDuration());
         int offpulses = (bytes[i+2]<<8) + bytes[i+3];
         int offvalue = round(offpulses * GetIRPulseDuration());
+
+        if(verboseOutput && verboseLevel < 2){
+            printf("%02X%02X %02X%02X = %d, %d\n", bytes[i], bytes[i+1], bytes[i+2], bytes[i+3], onpulses, offpulses);
+        }
         BurstPair pair(onvalue, offvalue);
         results.push_back(pair);
     }

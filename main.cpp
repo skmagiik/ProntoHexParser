@@ -102,7 +102,7 @@ int main(int argc, char **argv)
                 if(verboseOutput && verboseLevel <= 4){
 
                     printf("Sequence %d Burst Pairs: %d\n",i,pronto.GetSequenceLength(i));
-                    vector<BurstPair> sequencePairs = pronto.GetSequenceBurstPairs(i);
+                    vector<BurstPair> sequencePairs = pronto.GetSequenceBurstPairs(i, verboseOutput, verboseLevel);
                     for(int j = 0; j < sequencePairs.size(); j++){
                         printf("Burst pair %d: %d, %d\n",j, sequencePairs[j].TimeOn, sequencePairs[j].TimeOff);
                     }

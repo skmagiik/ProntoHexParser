@@ -34,7 +34,7 @@ public:
     bool IsSequencePresent(int sequence);
     vector<unsigned char> GetSequenceBytes(int sequence);
     vector<int> GetSequenceTiming(int sequence, bool withsigns = false);
-    vector<BurstPair> GetSequenceBurstPairs(int sequence);
+    vector<BurstPair> GetSequenceBurstPairs(int sequence, bool verboseOutput = false, int verboseLevel = 5);
 
 
     // DO NOT USE!
