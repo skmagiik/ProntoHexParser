@@ -86,7 +86,10 @@ int main(int argc, char **argv)
         int sequence2size = pronto.GetSequenceLength(2);
         int expectedsize = 8 + 4 * (sequence1size + sequence2size);
         int actualsize = (int)pronto.raw_bytes.size();
-        
+        printf("Sequence 1 vs Sequence 2 explanation:\n");
+        printf("  Sequence 1, or Once Code, is the IR code that will be sent by a remote the first time that a button is pressed, it will not repeat when the button is held by the user.\n");
+        printf("  Sequence 2, or Repeat Code, is the IR code that will be sent by a remote while the user holds a button, the time between repeats is not specified by the ProntoHex format.\n");
+        printf("  ProntoHex may include both sequences, and devices must determine which code to use when emmitting a signal.\n\n");
         if(verboseOutput){
             printf("Sequence 1 Size: %d\n", sequence1size);
             printf("Sequence 2 Size: %d\n", sequence2size);
@@ -102,7 +105,7 @@ int main(int argc, char **argv)
 
         printf("\n");
         printf("Frequency: %0.2f Hz\n",pronto.GetIRFrequency());
-        printf("Time per Pulse: %0.3f us\n",pronto.GetIRPulseDuration());
+        printf("Time Unit: %0.3f us\n",pronto.GetIRPulseDuration());
         printf("\n");
 
         for(int i = 1; i < 3; i++){
