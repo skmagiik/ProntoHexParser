@@ -137,20 +137,27 @@ int main(int argc, char **argv)
 
         if(outputType == OutputType::IR_SCRUTINIZER){
             printf("Freq=%dHz[",(int)round(pronto.GetIRFrequency()));
-            vector<int> sequenceData = pronto.GetSequenceTiming(1,true);
-            for(int j = 0; j < sequenceData.size(); j++){
-                printf("%s%d",sequenceData[j]>=0 ? "+" : "", sequenceData[j]);
-                if(j+1 < sequenceData.size()){
-                    printf(",");
+            vector<int> sequenceData;
+
+            if(pronto.IsSequencePresent(1)){
+                sequenceData = pronto.GetSequenceTiming(1,true);
+                for(int j = 0; j < sequenceData.size(); j++){
+                    printf("%s%d",sequenceData[j]>=0 ? "+" : "", sequenceData[j]);
+                    if(j+1 < sequenceData.size()){
+                        printf(",");
+                    }
                 }
             }
             printf("][");
             sequenceData.clear();
-            sequenceData = pronto.GetSequenceTiming(2,true);
-            for(int j = 0; j < sequenceData.size(); j++){
-                printf("%s%d",sequenceData[j]>=0 ? "+" : "", sequenceData[j]);
-                if(j+1 < sequenceData.size()){
-                    printf(",");
+
+            if(pronto.IsSequencePresent(2)){
+                sequenceData = pronto.GetSequenceTiming(2,true);
+                for(int j = 0; j < sequenceData.size(); j++){
+                    printf("%s%d",sequenceData[j]>=0 ? "+" : "", sequenceData[j]);
+                    if(j+1 < sequenceData.size()){
+                        printf(",");
+                    }
                 }
             }
             printf("][]\n\n");
